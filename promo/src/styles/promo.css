@@ -255,6 +255,15 @@ body {
   backdrop-filter: blur(8px);
 }
 
+.promo-hero__unmute:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.promo-hero__audio {
+  display: none;
+}
+
 /* ── Secciones ── */
 
 .promo-section {
@@ -263,6 +272,8 @@ body {
   background-image:
     radial-gradient(circle at center, rgba(168, 85, 247, 0.07) 1px, transparent 1px);
   background-size: 28px 28px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
 }
 
 .promo-section--rooms {

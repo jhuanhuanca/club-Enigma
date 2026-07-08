@@ -12,6 +12,15 @@ export default defineConfig({
   build: {
     outDir: resolve(rootDir, 'dist'),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        assetFileNames: (info) => {
+          const name = info.names?.[0] ?? ''
+          if (/\.(mp4|mp3)$/i.test(name)) return 'media/[name]-[hash][extname]'
+          return 'assets/[name]-[hash][extname]'
+        },
+      },
+    },
   },
   server: {
     port: 5174,

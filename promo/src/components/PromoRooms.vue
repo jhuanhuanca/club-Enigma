@@ -1,17 +1,31 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { ROOM_CATALOG } from '../data'
 import { whatsappLink } from '../config'
 import { usePromoVideo } from '../composables/usePromoVideo'
+import { useLazyAsset } from '../composables/useLazyAsset'
 import enigmaLogo from '../images/enigma.png'
-import clubVideo from '../videos/club.mp4'
 
+const sectionRef = ref<HTMLElement | null>(null)
 const videoRef = ref<HTMLVideoElement | null>(null)
 const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
+
+const canLoadClubVideo = computed(() => !prefersReducedMotion.value)
+
+const { src: clubVideoSrc } = useLazyAsset(
+  sectionRef,
+  () => import('../videos/club.mp4').then((mod) => mod.default),
+  { enabled: canLoadClubVideo },
+)
 </script>
 
 <template>
-  <section id="salas" class="promo-section promo-section--rooms" aria-label="salas de karaoke">
+  <section
+    id="salas"
+    ref="sectionRef"
+    class="promo-section promo-section--rooms"
+    aria-label="salas de karaoke"
+  >
     <div class="promo-section__inner">
       <h2 class="promo-section__title">Nuestras 9 salas exclusivas</h2>
       <p class="promo-section__lead">
@@ -22,15 +36,15 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
       <div class="promo-rooms-reveal">
         <div class="promo-rooms-reveal__media" aria-hidden="true">
           <video
-            v-if="!prefersReducedMotion"
+            v-if="clubVideoSrc && !prefersReducedMotion"
             ref="videoRef"
             class="promo-rooms-reveal__video"
-            :src="clubVideo"
+            :src="clubVideoSrc"
             muted
             loop
             playsinline
             autoplay
-            preload="metadata"
+            preload="none"
             @loadeddata="onVideoLoaded"
           />
           <div v-else class="promo-rooms-reveal__fallback" />
@@ -44,6 +58,10 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
             class="promo-rooms-reveal__logo"
             :src="enigmaLogo"
             alt="Enigma"
+            width="220"
+            height="320"
+            loading="lazy"
+            decoding="async"
           />
           <p class="promo-rooms-reveal__hint">No todo el mundo entra.</p>
           <p class="promo-rooms-reveal__teaser">

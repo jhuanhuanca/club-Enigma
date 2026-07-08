@@ -1,22 +1,90 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 import { SITE_NAME, whatsappLink } from '../config'
 import { usePromoVideo } from '../composables/usePromoVideo'
 import enigmaLogo from '../images/enigma.png'
 import heroVideo from '../videos/hero.mp4'
 
 const videoRef = ref<HTMLVideoElement | null>(null)
-const { onVideoLoaded } = usePromoVideo()
+const audioRef = ref<HTMLAudioElement | null>(null)
+const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
 
 const isMuted = ref(true)
+const isActivatingSound = ref(false)
 
-const toggleMute = () => {
-  isMuted.value = !isMuted.value
-  if (videoRef.value) {
-    videoRef.value.muted = isMuted.value
-    if (!isMuted.value) void videoRef.value.play().catch(() => {})
+let soundUrl: string | null = null
+let soundLoader: Promise<string> | null = null
+
+function loadSound(): Promise<string> {
+  if (soundUrl) return Promise.resolve(soundUrl)
+  if (!soundLoader) {
+    soundLoader = import('../videos/sonido.mp3').then((mod) => {
+      soundUrl = mod.default
+      return soundUrl
+    })
+  }
+  return soundLoader
+}
+
+async function syncAndPlayAudio() {
+  const video = videoRef.value
+  const audio = audioRef.value
+  if (!video || !audio || !soundUrl) return
+
+  audio.currentTime = video.currentTime % (audio.duration || video.duration || 1)
+  await audio.play()
+}
+
+async function toggleMute() {
+  if (prefersReducedMotion.value || isActivatingSound.value) return
+
+  if (!isMuted.value) {
+    isMuted.value = true
+    audioRef.value?.pause()
+    return
+  }
+
+  isActivatingSound.value = true
+  try {
+    if (!soundUrl) {
+      const url = await loadSound()
+      if (audioRef.value) {
+        audioRef.value.src = url
+        audioRef.value.load()
+      }
+    }
+
+    isMuted.value = false
+    await syncAndPlayAudio()
+    void videoRef.value?.play().catch(() => {})
+  } catch {
+    isMuted.value = true
+  } finally {
+    isActivatingSound.value = false
   }
 }
+
+function onVideoTimeUpdate() {
+  const video = videoRef.value
+  const audio = audioRef.value
+  if (!video || !audio || isMuted.value || audio.paused) return
+
+  const drift = Math.abs(audio.currentTime - video.currentTime)
+  if (drift > 0.35) {
+    audio.currentTime = video.currentTime
+  }
+}
+
+onUnmounted(() => {
+  audioRef.value?.pause()
+})
+
+watch(prefersReducedMotion, (reduced) => {
+  if (reduced) {
+    isMuted.value = true
+    audioRef.value?.pause()
+  }
+})
 
 const waHref = whatsappLink('¡Hola! quiero unirme al grupo de Enigma')
 </script>
@@ -28,12 +96,21 @@ const waHref = whatsappLink('¡Hola! quiero unirme al grupo de Enigma')
         ref="videoRef"
         class="promo-hero__video"
         :src="heroVideo"
+        :poster="enigmaLogo"
         muted
         loop
         playsinline
         autoplay
         preload="metadata"
         @loadeddata="onVideoLoaded"
+        @timeupdate="onVideoTimeUpdate"
+      />
+      <audio
+        ref="audioRef"
+        class="promo-hero__audio"
+        loop
+        preload="none"
+        aria-hidden="true"
       />
       <div class="promo-hero__blur" />
       <div class="promo-hero__overlay" />
@@ -55,6 +132,10 @@ const waHref = whatsappLink('¡Hola! quiero unirme al grupo de Enigma')
             class="promo-hero__logo-mark"
             :src="enigmaLogo"
             alt="Enigma"
+            width="280"
+            height="400"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
 
@@ -80,8 +161,20 @@ const waHref = whatsappLink('¡Hola! quiero unirme al grupo de Enigma')
           </a>
         </div>
 
-        <button type="button" class="promo-hero__unmute" @click="toggleMute">
-          {{ isMuted ? 'Activar sonido' : 'Sonido activo' }}
+        <button
+          v-if="!prefersReducedMotion"
+          type="button"
+          class="promo-hero__unmute"
+          :disabled="isActivatingSound"
+          @click="toggleMute"
+        >
+          {{
+            isActivatingSound
+              ? 'Cargando sonido…'
+              : isMuted
+                ? 'Activar sonido'
+                : 'Sonido activo'
+          }}
         </button>
       </main>
     </div>
