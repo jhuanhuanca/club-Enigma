@@ -47,7 +47,7 @@ const waHref = whatsappLink('¡hola! quiero unirme al grupo de enigma')
 
       <main class="promo-hero__main">
         <p class="promo-hero__copy promo-hero__copy--left">
-          el club que el alto susurra, no anuncia.
+          el club que la ciudad deEl Alto susurra, no anuncia.
         </p>
 
         <div class="promo-hero__center">

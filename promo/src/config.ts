@@ -5,8 +5,8 @@
 export const WHATSAPP_GROUP_URL =
   'https://chat.whatsapp.com/TU_ENLACE_DE_GRUPO_AQUI'
 
-export const SITE_NAME = 'enigma'
-export const CLUB_TAGLINE = 'karaoke club exclusivo · el alto, bolivia'
+export const SITE_NAME = 'Enigma'
+export const CLUB_TAGLINE = 'Karaoke club exclusivo · El Alto, Bolivia'
 
 export function whatsappLink(message?: string): string {
   if (!message) return WHATSAPP_GROUP_URL

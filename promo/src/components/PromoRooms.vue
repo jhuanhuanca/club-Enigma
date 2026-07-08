@@ -13,10 +13,10 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
 <template>
   <section id="salas" class="promo-section promo-section--rooms" aria-label="salas de karaoke">
     <div class="promo-section__inner">
-      <h2 class="promo-section__title">nuestras 9 salas exclusivas</h2>
+      <h2 class="promo-section__title">Nuestras 9 salas exclusivas</h2>
       <p class="promo-section__lead">
         9 salas privadas para cantar, brindar y vivir la noche como se debe.
-        los del grupo reservan primero.
+        Los del grupo reservan primero.
       </p>
 
       <div class="promo-rooms-reveal">
@@ -45,10 +45,10 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
             :src="enigmaLogo"
             alt="enigma"
           />
-          <p class="promo-rooms-reveal__hint">no todo el mundo entra.</p>
+          <p class="promo-rooms-reveal__hint">No todo el mundo entra.</p>
           <p class="promo-rooms-reveal__teaser">
-            karaoke, privacidad y un ambiente que solo conocen los del grupo.
-            <span>escríbenos y te contamos qué sala te conviene hoy.</span>
+            Karaoke, privacidad y un ambiente que solo conocen los del grupo.
+            <span>Escribenos y te contamos qué sala te conviene hoy.</span>
           </p>
         </div>
       </div>
@@ -63,7 +63,7 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
           <span class="promo-room__badge">{{ room.availability }}</span>
           <h3 class="promo-room__title">{{ room.title }}</h3>
           <p class="promo-room__capacity">
-            <span class="promo-room__label">capacidad</span>
+            <span class="promo-room__label">Capacidad</span>
             {{ room.capacity }}
           </p>
         </article>
@@ -76,7 +76,7 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
           target="_blank"
           rel="noopener noreferrer"
         >
-          quiero mi lugar en el grupo
+          Quiero mi lugar en el grupo
         </a>
       </div>
     </div>
