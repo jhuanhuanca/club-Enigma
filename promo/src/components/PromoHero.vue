@@ -12,8 +12,11 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
 const isMuted = ref(true)
 const isActivatingSound = ref(false)
 
+const MIN_SOUND_SECONDS = 10
+
 let soundUrl: string | null = null
 let soundLoader: Promise<string> | null = null
+let soundCycleId = 0
 
 function loadSound(): Promise<string> {
   if (soundUrl) return Promise.resolve(soundUrl)
@@ -26,13 +29,70 @@ function loadSound(): Promise<string> {
   return soundLoader
 }
 
-async function syncAndPlayAudio() {
-  const video = videoRef.value
-  const audio = audioRef.value
-  if (!video || !audio || !soundUrl) return
+function wait(ms: number, cycleId: number): Promise<void> {
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      if (cycleId !== soundCycleId) return
+      resolve()
+    }, ms)
+  })
+}
 
-  audio.currentTime = video.currentTime % (audio.duration || video.duration || 1)
-  await audio.play()
+function waitForAudioEnd(audio: HTMLAudioElement, cycleId: number): Promise<void> {
+  return new Promise((resolve) => {
+    if (cycleId !== soundCycleId || audio.ended) {
+      resolve()
+      return
+    }
+
+    const onEnd = () => {
+      audio.removeEventListener('ended', onEnd)
+      resolve()
+    }
+    audio.addEventListener('ended', onEnd)
+  })
+}
+
+function stopSound() {
+  soundCycleId++
+  audioRef.value?.pause()
+}
+
+async function runSoundCycle(cycleId: number) {
+  const audio = audioRef.value
+  if (!audio || isMuted.value || cycleId !== soundCycleId) return
+
+  const cycleStart = performance.now()
+  audio.loop = false
+  audio.currentTime = 0
+
+  try {
+    await audio.play()
+  } catch {
+    isMuted.value = true
+    return
+  }
+
+  await waitForAudioEnd(audio, cycleId)
+  if (isMuted.value || cycleId !== soundCycleId) return
+
+  const elapsedSec = (performance.now() - cycleStart) / 1000
+  const remainingSec = MIN_SOUND_SECONDS - elapsedSec
+  if (remainingSec > 0) {
+    await wait(remainingSec * 1000, cycleId)
+  }
+
+  if (!isMuted.value && cycleId === soundCycleId) {
+    void runSoundCycle(cycleId)
+  }
+}
+
+async function startSound() {
+  const audio = audioRef.value
+  if (!audio || !soundUrl) return
+
+  soundCycleId++
+  void runSoundCycle(soundCycleId)
 }
 
 async function toggleMute() {
@@ -40,7 +100,7 @@ async function toggleMute() {
 
   if (!isMuted.value) {
     isMuted.value = true
-    audioRef.value?.pause()
+    stopSound()
     return
   }
 
@@ -55,7 +115,7 @@ async function toggleMute() {
     }
 
     isMuted.value = false
-    await syncAndPlayAudio()
+    await startSound()
     void videoRef.value?.play().catch(() => {})
   } catch {
     isMuted.value = true
@@ -64,25 +124,14 @@ async function toggleMute() {
   }
 }
 
-function onVideoTimeUpdate() {
-  const video = videoRef.value
-  const audio = audioRef.value
-  if (!video || !audio || isMuted.value || audio.paused) return
-
-  const drift = Math.abs(audio.currentTime - video.currentTime)
-  if (drift > 0.35) {
-    audio.currentTime = video.currentTime
-  }
-}
-
 onUnmounted(() => {
-  audioRef.value?.pause()
+  stopSound()
 })
 
 watch(prefersReducedMotion, (reduced) => {
   if (reduced) {
     isMuted.value = true
-    audioRef.value?.pause()
+    stopSound()
   }
 })
 
@@ -103,12 +152,10 @@ const waHref = whatsappLink('¡Hola! quiero unirme al grupo de Enigma')
         autoplay
         preload="metadata"
         @loadeddata="onVideoLoaded"
-        @timeupdate="onVideoTimeUpdate"
       />
       <audio
         ref="audioRef"
         class="promo-hero__audio"
-        loop
         preload="none"
         aria-hidden="true"
       />
