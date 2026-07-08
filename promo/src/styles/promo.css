@@ -30,7 +30,6 @@ body {
   background: var(--promo-bg);
   color: var(--promo-text);
   font-family: var(--promo-font);
-  text-transform: lowercase;
   letter-spacing: -0.02em;
 }
 

@@ -43,12 +43,12 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
           <img
             class="promo-rooms-reveal__logo"
             :src="enigmaLogo"
-            alt="enigma"
+            alt="Enigma"
           />
           <p class="promo-rooms-reveal__hint">No todo el mundo entra.</p>
           <p class="promo-rooms-reveal__teaser">
             Karaoke, privacidad y un ambiente que solo conocen los del grupo.
-            <span>Escribenos y te contamos qué sala te conviene hoy.</span>
+            <span>Escríbenos y te contamos qué sala te conviene hoy.</span>
           </p>
         </div>
       </div>
@@ -71,7 +71,7 @@ const { onVideoLoaded, prefersReducedMotion } = usePromoVideo()
 
       <div class="promo-section__footer-cta">
         <a
-          :href="whatsappLink('hola, quiero descubrir las salas de enigma')"
+          :href="whatsappLink('Hola, quiero descubrir las salas de Enigma')"
           class="promo-wa-btn promo-wa-btn--large"
           target="_blank"
           rel="noopener noreferrer"

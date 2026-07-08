@@ -3,7 +3,7 @@ import { DRINK_CATALOG_TOTAL, FEATURED_DRINKS } from '../data'
 import { SITE_NAME, whatsappLink } from '../config'
 import enigmaLogo from '../images/enigma.png'
 
-const waHref = whatsappLink('hola, quiero ver la carta completa de bebidas de enigma')
+const waHref = whatsappLink('Hola, quiero ver la carta completa de bebidas de Enigma')
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const waHref = whatsappLink('hola, quiero ver la carta completa de bebidas de en
       <h2 class="promo-section__title">Arte en cada sorbo</h2>
       <p class="promo-section__lead">
         Singani, sabores del altiplano y cocteles que no verás en ninguna carta pública.
-        la lista completa solo la comparten en el grupo.
+        La lista completa solo la comparten en el grupo.
       </p>
 
       <div class="promo-drinks-row">
@@ -46,7 +46,7 @@ const waHref = whatsappLink('hola, quiero ver la carta completa de bebidas de en
         </article>
 
         <aside class="promo-drinks-more">
-          <p class="promo-drinks-more__count">+{{ DRINK_CATALOG_TOTAL - FEATURED_DRINKS.length }}  Cocteles más</p>
+          <p class="promo-drinks-more__count">+{{ DRINK_CATALOG_TOTAL - FEATURED_DRINKS.length }} cocteles más</p>
           <p class="promo-drinks-more__text">
             Esto es solo el comienzo. En el grupo de {{ SITE_NAME }} te mandamos la carta
             completa, combos de la noche y promos que no duran mucho.
