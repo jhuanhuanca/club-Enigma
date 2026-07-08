@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build:promo",
+  "outputDirectory": "promo/dist",
+  "installCommand": "npm install",
+  "framework": "vite"
+}

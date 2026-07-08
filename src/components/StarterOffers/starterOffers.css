@@ -1,0 +1,445 @@
+.starter {
+  --st-bg: #000000;
+  --st-surface: #0a0614;
+  --st-panel: #120a22;
+  --st-border: rgba(255, 255, 255, 0.1);
+  --st-accent: #2b4dff;
+  --st-accent-hover: #3d5fff;
+  --st-neon-purple: #a855f7;
+  --st-neon-pink: #ff2d95;
+  --st-neon-cyan: #22d3ee;
+  --st-text: #ffffff;
+  --st-text-muted: rgba(255, 255, 255, 0.72);
+  --st-max: 1180px;
+  --st-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+  background: var(--st-bg);
+  color: var(--st-text);
+  font-family: var(--st-font);
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+}
+
+/* ── Marcador diamante ── */
+
+.starter-mark {
+  flex-shrink: 0;
+  display: flex;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.35rem;
+  color: var(--st-neon-cyan);
+  filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.45));
+}
+
+.starter-mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Botones ── */
+
+.starter-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.starter-btn--primary {
+  color: #fff;
+  background: var(--st-accent);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.8rem;
+  box-shadow: 0 0 24px rgba(43, 77, 255, 0.35);
+}
+
+.starter-btn--primary:hover {
+  background: var(--st-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 0 32px rgba(43, 77, 255, 0.5);
+}
+
+.starter-btn--large {
+  padding: 0.9rem 2.25rem;
+  font-size: 0.88rem;
+}
+
+/* ── Hero ── */
+
+.starter-hero {
+  position: relative;
+  min-height: clamp(280px, 48vh, 420px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.starter-hero__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+  filter: brightness(0.65) contrast(1.1) saturate(1.15);
+}
+
+.starter-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.3) 45%, rgba(0, 0, 0, 0.8) 100%),
+    radial-gradient(ellipse 65% 50% at 50% 50%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+}
+
+.starter-hero__title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: 0 1.25rem;
+  max-width: 18ch;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+}
+
+/* ── Intro so-mek ── */
+
+.starter-intro {
+  padding: clamp(2.75rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2rem);
+  background-color: var(--st-surface);
+  background-image:
+    radial-gradient(circle at center, rgba(168, 85, 247, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.starter-intro__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.starter-intro__title {
+  margin: 0 auto 1rem;
+  font-size: clamp(1.35rem, 3.5vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--st-neon-purple);
+  text-shadow: 0 0 28px rgba(168, 85, 247, 0.25);
+}
+
+.starter-intro__lead {
+  margin: 0 auto 2rem;
+  max-width: 58ch;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  line-height: 1.75;
+  color: var(--st-text-muted);
+  text-wrap: pretty;
+}
+
+.starter-requirements {
+  text-align: left;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 1.25rem 1.35rem;
+  background: rgba(18, 10, 34, 0.65);
+  border: 1px solid var(--st-border);
+  border-radius: 14px;
+}
+
+.starter-requirements__label {
+  margin: 0 0 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.starter-requirements__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.starter-requirements__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--st-text-muted);
+}
+
+/* ── Paquetes zigzag ── */
+
+.starter-packages,
+.starter-charges {
+  background: var(--st-surface);
+}
+
+.starter-pkg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: clamp(360px, 42vh, 460px);
+  border-top: 1px solid var(--st-border);
+}
+
+.starter-pkg--reverse .starter-pkg__panel {
+  order: 2;
+}
+
+.starter-pkg--reverse .starter-pkg__media {
+  order: 1;
+}
+
+.starter-pkg__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  background: var(--st-panel);
+}
+
+.starter-pkg__panel--bordered {
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: inset 0 0 40px rgba(168, 85, 247, 0.06);
+}
+
+.starter-pkg__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--st-neon-purple);
+  text-shadow: 0 0 24px rgba(168, 85, 247, 0.2);
+}
+
+.starter-pkg__price {
+  margin: 0;
+  font-size: clamp(0.92rem, 2vw, 1rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.starter-pkg__price--alt {
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: var(--st-text-muted);
+}
+
+.starter-pkg__list {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.starter-pkg__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--st-text-muted);
+}
+
+.starter-pkg__fine {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.starter-pkg__media {
+  position: relative;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+.starter-pkg__visual {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: brightness(0.88) contrast(1.05) saturate(1.12);
+}
+
+.starter-pkg__media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 6, 20, 0.35) 0%,
+    transparent 50%,
+    rgba(10, 6, 20, 0.25) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Cargos ── */
+
+.starter-charges__list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.starter-charges__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.starter-charges__price {
+  font-weight: 600;
+  color: var(--st-neon-cyan);
+}
+
+/* ── Términos ── */
+
+.starter-terms {
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem);
+  background: var(--st-surface);
+  border-top: 1px solid var(--st-border);
+}
+
+.starter-terms__title {
+  margin: 0 auto 1.5rem;
+  max-width: var(--st-max);
+  font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.starter-terms__list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 720px;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.starter-terms__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: var(--st-text-muted);
+}
+
+/* ── Footer ── */
+
+.starter-footer {
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 7vw, 4.5rem);
+  background: var(--st-surface);
+  text-align: center;
+  border-top: 1px solid var(--st-border);
+}
+
+.starter-footer__note {
+  margin: 1rem 0 0;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.starter-footer__note--muted {
+  margin-top: 0.35rem;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 900px) {
+  .starter-hero__title {
+    max-width: 100%;
+    font-size: clamp(1.5rem, 6.5vw, 2rem);
+  }
+
+  .starter-pkg {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+
+  .starter-pkg--reverse .starter-pkg__panel,
+  .starter-pkg--reverse .starter-pkg__media {
+    order: unset;
+  }
+
+  .starter-pkg__media {
+    min-height: 220px;
+    max-height: 300px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .starter-pkg__panel {
+    padding: 2rem 1.35rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .starter-pkg__list,
+  .starter-charges__list {
+    text-align: left;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .starter-requirements {
+    text-align: center;
+  }
+
+  .starter-requirements__item {
+    justify-content: center;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .starter-btn--large {
+    width: 100%;
+    max-width: 18rem;
+  }
+
+  .starter-charges__item {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .starter-charges__price {
+    grid-column: 2;
+    justify-self: start;
+    padding-left: 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starter-btn--primary:hover {
+    transform: none;
+  }
+}
